@@ -20,7 +20,7 @@ function generateDNAArray(n) {
 
 export let options = {
   stages: [
-    { duration: '1m', target: 10000 },
+    { duration: '1s', target: 1000 },
   ],
 };
 

@@ -8,7 +8,7 @@ export class DnaModel {
   @Column('simple-array')
   sequence!: string[];
 
-  @Column()
+  @Column('boolean')
   isSpecial!: boolean;
 
   @Column('datetime', { name: 'createdAt' })

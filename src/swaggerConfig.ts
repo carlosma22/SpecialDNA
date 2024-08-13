@@ -17,5 +17,5 @@ const swaggerDefinition: SwaggerDefinition = {
 
 export const swaggerOptions: Options = {
   swaggerDefinition,
-  apis: ['./src/controllers/*.ts', './src/dtos/*.ts'],
+  apis: ['./controllers/*.ts', './dtos/*.ts'],
 };

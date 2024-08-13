@@ -6,7 +6,7 @@ import { StoreEvent } from './events/store.event';
 import { ReplayerEvent } from './events/replayer.event';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerOptions } from '../swaggerConfig';
+import { swaggerOptions } from './swaggerConfig';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,7 +17,7 @@ export const appDataSource = new DataSource({
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  entities: ['src/models/*.ts'],
+  entities: [__dirname + '/models/*.{js,ts}'],
   synchronize: false
 });
 

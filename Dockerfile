@@ -17,7 +17,7 @@ RUN npx tsc
 RUN apt-get update && apt-get install -y redis-server
 
 # Start Redis in the background
-RUN sudo nohup redis-server &
+RUN nohup redis-server &
 
 # Install Java for Kafka
 RUN apt-get install -y default-jdk
@@ -28,10 +28,10 @@ RUN wget https://dlcdn.apache.org/kafka/3.8.0/kafka_2.13-3.8.0.tgz \
     && mv kafka_2.13-3.8.0 /usr/local/kafka
 
 # Start Zookeeper in the background
-RUN sudo nohup /usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties &
+RUN nohup /usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties &
 
 # Start Kafka in the background
-RUN sudo nohup /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &
+RUN nohup /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &
 
 # Install K6
 RUN apt-get install -y gnupg2 curl \
