@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  specialdna:
+    container_name: SpecialDna
+    build: .
+    env_file: .env
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+    command: npm start
+  
+  mysql:
+    image: mysql:latest
+    restart: always
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+      - ./mysql-conf/my.cnf:/etc/mysql/conf.d/my.cnf
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:

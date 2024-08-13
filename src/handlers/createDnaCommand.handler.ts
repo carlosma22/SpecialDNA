@@ -22,7 +22,7 @@ export class CreateDnaCommandHandler {
       dnaRecord.id, 
       'DNA_ANALYZED', 
       { sequence: command.sequence, isSpecial },
-    ); console.log(event);
+    );
     
     await this.storeEvent.save(event);
     

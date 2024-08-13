@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS Qrvey;
+
+USE Qrvey;
+
+DROP TABLE IS EXISTS Dna;
+
+CREATE TABLE Dna (
+  id char(36) NOT NULL,
+  sequence text NOT NULL,
+  isSpecial tinyint(1) NOT NULL DEFAULT '0',
+  createdAt datetime DEFAULT CURRENT_TIMESTAMP,
+  updatedAt datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);

@@ -29,7 +29,9 @@ export class DnaController {
    *             $ref: '#/components/schemas/AnalyzeDnaDto'
    *     responses:
    *       200:
-   *         description: DNA analysis completed successfully.
+   *         description: The DNA analysis is special.
+   *       403:
+   *         description: The DNA analysis is not special.
    *       422:
    *         description: Validation error.
    *       500:
