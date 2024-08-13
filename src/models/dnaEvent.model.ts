@@ -1,4 +1,4 @@
-export class DnaEventEntity {
+export class DnaEventModel {
   constructor(
       public readonly id: string,
       public readonly eventType: string,

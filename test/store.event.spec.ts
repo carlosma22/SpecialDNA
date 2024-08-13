@@ -1,7 +1,7 @@
 
 import { Kafka, Producer } from 'kafkajs';
 import { StoreEvent } from '../src/events/store.event';
-import { DnaEventEntity } from '../src/entities/dnaEvent.entity';
+import { DnaEventModel } from '../src/models/dnaEvent.model';
 import redisClient from '../src/database/redisClient';
 
 jest.mock('../src/database/redisClient', () => ({
@@ -51,7 +51,7 @@ describe('StoreEvent', () => {
 
   describe('save', () => {
     it('should save the event to Redis and Kafka', async () => {
-      const mockEvent = new DnaEventEntity('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
+      const mockEvent = new DnaEventModel('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
 
       await storeEvent.save(mockEvent);
 
@@ -70,7 +70,7 @@ describe('StoreEvent', () => {
     });
 
     it('should throw an error if saving to Redis or Kafka fails', async () => {
-      const mockEvent = new DnaEventEntity('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
+      const mockEvent = new DnaEventModel('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
 
       (redisClient.rPush as jest.Mock).mockRejectedValueOnce(new Error('Redis error'));
 
@@ -81,8 +81,8 @@ describe('StoreEvent', () => {
   describe('getEvents', () => {
     it('should retrieve events from Redis', async () => {
       const mockEvents = [
-        JSON.stringify(new DnaEventEntity('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true })),
-        JSON.stringify(new DnaEventEntity('1', 'DNA_ANALYZED', { dna: ['CCCC'], isSpecial: false })),
+        JSON.stringify(new DnaEventModel('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true })),
+        JSON.stringify(new DnaEventModel('1', 'DNA_ANALYZED', { dna: ['CCCC'], isSpecial: false })),
       ];
 
       (redisClient.lRange as jest.Mock).mockResolvedValueOnce(mockEvents);

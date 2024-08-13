@@ -1,7 +1,7 @@
 import { Kafka, EachMessagePayload } from 'kafkajs';
 import { ReplayerEvent } from '../src/events/replayer.event';
 import { StoreEvent } from '../src/events/store.event';
-import { DnaEventEntity } from '../src/entities/dnaEvent.entity';
+import { DnaEventModel } from '../src/models/dnaEvent.model';
 
 jest.mock('kafkajs');
 jest.mock('../src/events/store.event');
@@ -53,7 +53,7 @@ describe('ReplayerEvent', () => {
 
   describe('replay', () => {
     it('should replay DNA_ANALYZED event and return the data', async () => {
-      const mockEvent = new DnaEventEntity('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
+      const mockEvent = new DnaEventModel('1', 'DNA_ANALYZED', { dna: ['AAAA'], isSpecial: true });
 
       kafkaConsumerMock.run.mockImplementationOnce(async ({ eachMessage }: any) => {
         await eachMessage({

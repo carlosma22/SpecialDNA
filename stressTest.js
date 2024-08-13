@@ -20,14 +20,15 @@ function generateDNAArray(n) {
 
 export let options = {
   stages: [
-    { duration: '1m', target: 10000 }, // 1000 usuarios concurrentes en 1 minuto
+    { duration: '1m', target: 10000 },
   ],
 };
 
 export default function () {
   const arraySize = Math.floor(Math.random() * 11);
   const dnaArray = generateDNAArray(arraySize);
-  const payload = JSON.stringify({ dna: dnaArray });
+  const payload = JSON.stringify({ dna: dnaArray });  
+  const port = __ENV.PORT || 3000;
 
   const params = {
     headers: {
@@ -35,7 +36,7 @@ export default function () {
     },
   };
 
-  let postResponse = http.post('http://localhost:3000/dna-special', payload, params);
+  let postResponse = http.post(`http://localhost:${port}/dna-special`, payload, params);
   check(postResponse, {
     'status was 200': (r) => r.status === 200,
     'status was 422': (r) => r.status === 422,
@@ -43,7 +44,7 @@ export default function () {
     'status was 403': (r) => r.status === 403,
   });
 
-  let getResponse = http.get('http://localhost:3000/dashboard');
+  let getResponse = http.get(`http://localhost:${port}/dashboard`);
   check(getResponse, {
     'status was 200': (r) => r.status === 200,
     'status was 500': (r) => r.status === 500,

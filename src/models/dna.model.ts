@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('Dna', { schema: 'Qrvey' })
-export class DnaEntity {
+export class DnaModel {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

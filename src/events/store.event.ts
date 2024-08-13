@@ -1,6 +1,6 @@
 import { Kafka } from 'kafkajs';
 import redisClient from '../database/redisClient';
-import { DnaEventEntity } from '../entities/dnaEvent.entity';
+import { DnaEventModel } from '../models/dnaEvent.model';
 
 export class StoreEvent {
     private readonly EVENT_PREFIX = 'dna-event-';
@@ -26,7 +26,7 @@ export class StoreEvent {
         }
     }
 
-    async save(event: DnaEventEntity): Promise<void> {
+    async save(event: DnaEventModel): Promise<void> {
         try {
             const key = `${this.EVENT_PREFIX}${event.id}`;
 
@@ -44,11 +44,11 @@ export class StoreEvent {
         }
     }
 
-    async getEvents(id: string): Promise<DnaEventEntity[]> {
+    async getEvents(id: string): Promise<DnaEventModel[]> {
         try {
             const key = `${this.EVENT_PREFIX}${id}`;
             const events = await redisClient.lRange(key, 0, -1);
-            return events.map(event => JSON.parse(event) as DnaEventEntity);
+            return events.map(event => JSON.parse(event) as DnaEventModel);
         } catch (error: any) {
             throw Error(`Error: ${error.message || error}`);
         }

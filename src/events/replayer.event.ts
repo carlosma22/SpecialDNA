@@ -1,5 +1,5 @@
 import { Kafka } from 'kafkajs';
-import { DnaEventEntity } from '../entities/dnaEvent.entity';
+import { DnaEventModel } from '../models/dnaEvent.model';
 import { StoreEvent } from './store.event';
 
 export class ReplayerEvent {
@@ -38,7 +38,7 @@ export class ReplayerEvent {
 
       await this.kafkaConsumer.run({
         eachMessage: async ({ topic, partition, message }) => {
-          const event: DnaEventEntity = JSON.parse(message?.value?.toString() || '');
+          const event: DnaEventModel = JSON.parse(message?.value?.toString() || '');
 
           if (event.id === id) {
             switch (event.eventType) {

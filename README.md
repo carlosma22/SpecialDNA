@@ -52,36 +52,30 @@ Kafka es una plataforma de procesamiento de flujos de datos distribuida que se u
     sudo apt install default-jdk
     ```
 
-2. Cambia a tu directorio de descargas:
-
-    ```bash
-    cd /opt
-    ```
-
-3. Descarga la última versión de Kafka:
+2. Descarga la última versión de Kafka:
     ```bash
     wget https://dlcdn.apache.org/kafka/3.8.0/kafka_2.13-3.8.0.tgz
     ```
 
-4. Descomprime el archivo descargado:
+3. Descomprime el archivo descargado:
 
     ```bash
     tar -xzf kafka_2.13-3.8.0.tgz
     ```
 
-5. Cambia al directorio de Kafka:
+4. Cambia al directorio de Kafka:
 
     ```bash
     cd kafka_2.13-3.8.0
     ```
 
-6. Inicia Zookeeper:
+5. Inicia Zookeeper:
 
     ```bash
     sudo nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
     ```
 
-7. Inicia Kafka:
+6. Inicia Kafka:
 
     ```bash
     sudo nohup bin/kafka-server-start.sh config/server.properties &

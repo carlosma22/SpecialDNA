@@ -1,7 +1,7 @@
 import { CreateDnaCommand } from "../commands/CreateDna.command";
 import redisClient from "../database/redisClient";
-import { DnaEntity } from "../entities/dna.entity";
-import { DnaEventEntity } from "../entities/dnaEvent.entity";
+import { DnaModel } from "../models/dna.model";
+import { DnaEventModel } from "../models/dnaEvent.model";
 import { StoreEvent } from "../events/store.event";
 import { appDataSource } from "../main";
 
@@ -11,18 +11,19 @@ export class CreateDnaCommandHandler {
 
   async handle(command: CreateDnaCommand): Promise<boolean> {
     const isSpecial = this.isSpecialDna(command.sequence);
-
-    const dnaRepository = appDataSource.getRepository(DnaEntity);
-    const dnaRecord = new DnaEntity();
+    
+    const dnaRepository = appDataSource.getRepository(DnaModel);
+    const dnaRecord = new DnaModel();
     dnaRecord.sequence = command.sequence;
     dnaRecord.isSpecial = isSpecial;
     await dnaRepository.save(dnaRecord);
     
-    const event = new DnaEventEntity(
+    const event = new DnaEventModel(
       dnaRecord.id, 
       'DNA_ANALYZED', 
       { sequence: command.sequence, isSpecial },
-    );
+    ); console.log(event);
+    
     await this.storeEvent.save(event);
     
     await this.updateStats(isSpecial);

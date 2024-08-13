@@ -1,5 +1,5 @@
 import { CreateDnaCommand } from '../src/commands/CreateDna.command';
-import { DnaEntity } from '../src/entities/dna.entity';
+import { DnaModel } from '../src/models/dna.model';
 import redisClient from '../src/database/redisClient';
 import { appDataSource } from '../src/main';
 import { Repository } from 'typeorm';
@@ -21,14 +21,14 @@ jest.mock('../src/main', () => ({
 
 describe('CreateDnaCommandHandler', () => {
   let commandHandler: CreateDnaCommandHandler;
-  let dnaRepositoryMock: jest.Mocked<Repository<DnaEntity>>;
+  let dnaRepositoryMock: jest.Mocked<Repository<DnaModel>>;
   let storeEventMock: jest.Mocked<StoreEvent>;
 
   beforeEach(() => {
     commandHandler = new CreateDnaCommandHandler();
     dnaRepositoryMock = {
       save: jest.fn(),
-    } as unknown as jest.Mocked<Repository<DnaEntity>>;
+    } as unknown as jest.Mocked<Repository<DnaModel>>;
     appDataSource.getRepository = jest.fn().mockReturnValue(dnaRepositoryMock);
     storeEventMock = new StoreEvent() as jest.Mocked<StoreEvent>;
     storeEventMock.save = jest.fn();
@@ -53,14 +53,13 @@ describe('CreateDnaCommandHandler', () => {
         id: 'bd6350c6-08a7-476d-a0f1-39a63046d05c', 
         sequence: command.sequence, 
         isSpecial: true,
-      } as DnaEntity);
+      } as DnaModel);
       storeEventMock.save.mockResolvedValue();
 
       const result = await commandHandler.handle(command);
 
       expect(result).toBe(true);
       expect(dnaRepositoryMock.save).toHaveBeenCalled();
-      //expect(storeEventMock.save).toHaveBeenCalled();
       expect(redisClient.multi).toHaveBeenCalled();
       expect(redisClient.incr).toHaveBeenCalledWith('count_special_dna');
     });
@@ -71,14 +70,13 @@ describe('CreateDnaCommandHandler', () => {
         id: 'bd6350c6-08a7-476d-a0f1-39a63046d05c', 
         sequence: command.sequence, 
         isSpecial: false,
-      } as DnaEntity);
+      } as DnaModel);
       storeEventMock.save.mockResolvedValue();
 
       const result = await commandHandler.handle(command);
 
       expect(result).toBe(false);
       expect(dnaRepositoryMock.save).toHaveBeenCalled();
-      //expect(storeEventMock.save).toHaveBeenCalled();
       expect(redisClient.multi).toHaveBeenCalled();
       expect(redisClient.incr).toHaveBeenCalledWith('count_ordinary_dna');
     });

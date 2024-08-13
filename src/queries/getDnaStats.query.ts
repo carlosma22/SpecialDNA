@@ -1,10 +1,10 @@
-import { DnaEntity } from "../entities/dna.entity";
+import { DnaModel } from "../models/dna.model";
 import { appDataSource } from "../main";
 
 export class GetDnaStatsQuery {
   async execute() {
     try {
-      const dnaRepository = appDataSource.getRepository(DnaEntity);
+      const dnaRepository = appDataSource.getRepository(DnaModel);
           
       const result = await dnaRepository
           .createQueryBuilder("Dna")

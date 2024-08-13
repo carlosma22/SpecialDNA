@@ -2,8 +2,6 @@ import 'reflect-metadata';
 import express from 'express';
 import { DataSource } from 'typeorm';
 import { DnaController } from './controllers/dna.controller';
-import * as fs from 'fs';
-import * as path from 'path';
 import { StoreEvent } from './events/store.event';
 import { ReplayerEvent } from './events/replayer.event';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -12,17 +10,14 @@ import { swaggerOptions } from '../swaggerConfig';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const ormConfigPath = path.resolve(__dirname, 'database/ormConfig.json');
-const ormConfig = JSON.parse(fs.readFileSync(ormConfigPath, 'utf-8'));
-console.log()
 export const appDataSource = new DataSource({
   type: process.env.DATABASE_CLIENT as any,
   host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT || '0') || 3000,
+  port: parseInt(process.env.DATABASE_PORT || '0'),
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  entities: ['src/entities/*.ts'],
+  entities: ['src/models/*.ts'],
   synchronize: false
 });
 
@@ -43,7 +38,7 @@ const app = express();
 app.use(express.json());
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 const dnaController = new DnaController();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
