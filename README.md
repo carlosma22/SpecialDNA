@@ -6,7 +6,7 @@ This project is an application developed in Node.js that detects if a human has 
 
 Before running this project, make sure you have the following components installed:
 
-- **Nodejs** >= 20.0
+- **Nodejs** >= 18.0
 - **npm** >= 10.0
 - **MySQL**
 - **GIT**
@@ -96,6 +96,7 @@ echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.i
 sudo apt-get update
 sudo apt-get install k6
 ```
+
 
 ## Running the Application
 
