@@ -121,6 +121,54 @@ You can run load and stress tests with the following command:
   k6 run stressTest.js
 ```
 
+## Running The Application Without Docker
+
+1. Make sure you have the following prerequisites installed before getting started:
+
+    - [Docker](https://www.docker.com/get-started)
+    - [Docker Compose](https://docs.docker.com/compose/install)
+
+2. Set up environment variables
+
+    Create a .env file in the root of the project with the necessary environment variables.
+
+3. Build and run the containers
+
+    Run the following command to build the Docker images and start the containers:
+
+    ```bash
+    docker-compose up
+    ```
+    This command will start the services defined in the docker-compose.yml file, including the MySQL database, Redis, Kafka, and the Node.js application.
+
+4. Verify the application is running
+
+    Once the containers are up and running, you can access the application at http://localhost:3000.
+
+5. Stress testing with K6
+
+    To run the stress test, use the following command:
+
+    ```bash
+    docker-compose up k6
+    ```
+
+    Replace <k6-container-name> with the name of the K6 container that is running.
+
+6. Stop the containers
+
+    To stop and remove the containers, you can run:
+
+    ```bash
+    docker-compose down
+    ```
+
+7. Common Issues
+
+    - Error connecting to Redis/Kafka/MySQL: Ensure that the services are running correctly and that the environment variables in the .env file are properly configured.
+
+    - Ports in use: If you encounter port conflicts, make sure that the ports defined in docker-compose.yml are not being used by other services on your local machine.
+
 ## API Documentation
 
 The API documentation was generated using Swagger and can be accessed via the GET /api-docs route at the URL where the application is deployed.

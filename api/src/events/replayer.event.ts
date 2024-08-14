@@ -6,7 +6,7 @@ export class ReplayerEvent {
   private storeEvent: StoreEvent;
   private kafkaConsumer;
   private kafkaClientIdReplayer = 'dna-event-replayer';
-  private kafkaBrokers = 'localhost:9092';
+  private kafkaBrokers = 'kafka-qrvey:9092';
   private kafkaGroupIdReplayer = 'dna-event-replayers';
   private kafkaTopic = 'dna-events';
 
@@ -17,14 +17,13 @@ export class ReplayerEvent {
       clientId: this.kafkaClientIdReplayer,
       brokers: [this.kafkaBrokers],
     });
-
+    
     this.kafkaConsumer = kafka.consumer({ groupId: this.kafkaGroupIdReplayer });
   }
 
   async connectConsumer() {
     try {
       await this.kafkaConsumer.connect();
-      await this.kafkaConsumer.subscribe({ topic: this.kafkaTopic, fromBeginning: true });
     } catch (error: any) {
         throw Error(`Error: ${error.message || error}`);
     }

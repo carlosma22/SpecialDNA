@@ -1,4 +1,6 @@
 import { SwaggerDefinition, Options } from 'swagger-jsdoc';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const swaggerDefinition: SwaggerDefinition = {
   openapi: '3.0.0',
@@ -17,5 +19,8 @@ const swaggerDefinition: SwaggerDefinition = {
 
 export const swaggerOptions: Options = {
   swaggerDefinition,
-  apis: ['./controllers/*.ts', './dtos/*.ts'],
+  apis: [ 
+    __dirname  + '/controllers/*.{js,ts}', 
+    __dirname  + '/dtos/*.{js,ts}'
+  ],
 };

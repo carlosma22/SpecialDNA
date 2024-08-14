@@ -36,7 +36,7 @@ export default function () {
     },
   };
 
-  let postResponse = http.post(`http://localhost:${port}/dna-special`, payload, params);
+  let postResponse = http.post(`http://api-qrvey:${port}/dna-special`, payload, params);
   check(postResponse, {
     'status was 200': (r) => r.status === 200,
     'status was 422': (r) => r.status === 422,
@@ -44,7 +44,7 @@ export default function () {
     'status was 403': (r) => r.status === 403,
   });
 
-  let getResponse = http.get(`http://localhost:${port}/dashboard`);
+  let getResponse = http.get(`http://api-qrvey:${port}/dashboard`);
   check(getResponse, {
     'status was 200': (r) => r.status === 200,
     'status was 500': (r) => r.status === 500,

@@ -6,7 +6,7 @@ export class StoreEvent {
     private readonly EVENT_PREFIX = 'dna-event-';
     private kafkaProducer;
     private kafkaClientIdStore = 'dna-event-store';
-    private kafkaBrokers = 'localhost:9092';
+    private kafkaBrokers = 'kafka-qrvey:9092';
     private kafkaTopic = 'dna-events';
 
     constructor() {

@@ -38,10 +38,6 @@ describe('ReplayerEvent', () => {
       await replayerEvent.connectConsumer();
 
       expect(kafkaConsumerMock.connect).toHaveBeenCalledTimes(1);
-      expect(kafkaConsumerMock.subscribe).toHaveBeenCalledWith({
-        topic: 'dna-events',
-        fromBeginning: true,
-      });
     });
 
     it('should throw an error if connecting or subscribing fails', async () => {

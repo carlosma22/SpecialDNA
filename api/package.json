@@ -1,11 +1,10 @@
 {
-  "name": "dnaspecial",
+  "name": "specialdna",
   "version": "1.0.0",
-  "main": "dist/main.js",
   "scripts": {
     "start": "ts-node src/main.ts",
+    "start:prod": "node dist/main.js",
     "build": "tsc",
-    "serve": "node dist/main.js",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },

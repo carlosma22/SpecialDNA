@@ -20,7 +20,7 @@ export class GetDnaStatsQueryHandler {
         
       const countSpecial = parseInt(countSpecialDna);
       const countOrdinary = parseInt(countOrdinaryDna);
-      const ratio = countSpecial ? countSpecial / countOrdinary : 0;
+      const ratio = countOrdinary ? countSpecial / countOrdinary : 0;
       
       return {
         count_special_dna: countSpecial,

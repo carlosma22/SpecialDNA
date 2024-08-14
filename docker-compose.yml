@@ -1,30 +1,81 @@
 version: '3.3'
+
 services:
-  specialdna:
-    container_name: SpecialDna
-    build: .
-    env_file: .env
+  api:
+    container_name: api-qrvey
+    build: ./api
+    env_file: ./api/.env
     depends_on:
-      - mysql
+      - redis     
+      - kafka
+      - db      
     ports:
       - "3000:3000"
-    command: npm start
-  
-  mysql:
-    image: mysql:latest
-    restart: always
-    env_file: .env
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    container_name: redis-qrvey
     ports:
-      - "3306:3306"
+      - "6379:6379"
+    networks:
+      - backend
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper-qrvey
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - backend
+  
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka-qrvey
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - backend
+  
+  db:
+    image: mysql:latest
+    container_name: mysql-qrvey
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Qrvey
+      MYSQL_USER: userQrvey
+      MYSQL_PASSWORD: 123456
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
-      - ./mysql-conf/my.cnf:/etc/mysql/conf.d/my.cnf
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - ./mysql-conf/my.cnf:/etc/mysql/conf.d/my.cnf    
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+  k6:
+    image: grafana/k6:latest
+    container_name: k6-qrvey
+    volumes:
+      - ./:/scripts
+    entrypoint: ["k6", "run", "/scripts/api/stressTest.js"] 
+    networks:
+      - backend
 
 volumes:
   mysql_data:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge

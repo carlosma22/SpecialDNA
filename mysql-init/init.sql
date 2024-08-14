@@ -2,8 +2,6 @@ CREATE DATABASE IF NOT EXISTS Qrvey;
 
 USE Qrvey;
 
-DROP TABLE IS EXISTS Dna;
-
 CREATE TABLE Dna (
   id char(36) NOT NULL,
   sequence text NOT NULL,
